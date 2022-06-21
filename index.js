@@ -25,8 +25,13 @@ server.get('/allPeople', (req,res) =>{
     const allPeople = 'select * from turmaBB'
     con.query('select * from turmaBB', function(err, result, fields){
         if(err) throw err
+        if (result.length==0) res.send('vazio')
         res.send(result)
     })
 })
 
-server.listen(port, ()=>{console.log(`running at 'localhost:${port}'`))})
+server.get('/searchByUID/:uid', (req, res)=>{
+    const uid = req.params.uid
+    con.query(`select * from turmaBB where UIdUser = ${uid}`)})
+
+server.listen(port, ()=>{console.log(`running at 'localhost:${port}'`)})
